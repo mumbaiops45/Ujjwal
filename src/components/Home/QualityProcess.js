@@ -11,6 +11,7 @@ import {
   MdOutlineInventory,
   MdOutlineLocalShipping,
 } from "react-icons/md";
+import { FiCheckCircle } from "react-icons/fi";
 
 const steps = [
   {
@@ -19,7 +20,6 @@ const steps = [
     title: "Raw Material",
     desc: "Premium-grade PP, LDPE and HDPE granules sourced from certified suppliers. Every lot is tested for quality before entering production.",
     tags: ["Grade A Material", "Supplier Certified", "Pre-tested"],
-    side: "left",
   },
   {
     step: "02",
@@ -27,7 +27,6 @@ const steps = [
     title: "Manufacturing",
     desc: "Precision-controlled production on advanced machinery with strict parameter monitoring for consistent output and dimensional accuracy.",
     tags: ["Precision Control", "Advanced Machinery", "High Volume"],
-    side: "right",
   },
   {
     step: "03",
@@ -35,7 +34,6 @@ const steps = [
     title: "Quality Inspection",
     desc: "Multi-stage quality checks including dimensional verification, strength testing and visual inspection before goods move forward.",
     tags: ["Multi-Stage QC", "Strength Tested", "Visual Inspection"],
-    side: "left",
   },
   {
     step: "04",
@@ -43,7 +41,6 @@ const steps = [
     title: "Packaging",
     desc: "Finished goods are systematically packed, labelled and staged for dispatch — organised by order, client and specification.",
     tags: ["Systematically Packed", "Correctly Labelled", "Order Sorted"],
-    side: "right",
   },
   {
     step: "05",
@@ -51,22 +48,23 @@ const steps = [
     title: "Dispatch",
     desc: "Timely dispatch with reliable logistics partners. Orders tracked through our delivery network for on-time arrival.",
     tags: ["On-Time Delivery", "Tracked Logistics", "Pan India"],
-    side: "left",
   },
 ];
 
 export default function QualityProcess() {
-  const sectionRef = useRef(null);
-  const headerRef  = useRef(null);
-  const stepsRef   = useRef(null);
-  const quoteRef   = useRef(null);
+  const sectionRef      = useRef(null);
+  const headerRef       = useRef(null);
+  const desktopTopRef   = useRef(null); /* circles row  */
+  const desktopCardsRef = useRef(null); /* cards row    */
+  const mobileRef       = useRef(null); /* mobile steps */
+  const quoteRef        = useRef(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
 
-      /* header */
+      /* ── 1. Header fades up ── */
       gsap.fromTo(
         headerRef.current,
         { y: 50, opacity: 0 },
@@ -76,154 +74,219 @@ export default function QualityProcess() {
         }
       );
 
-      /* Each step slides in from its side */
-      if (stepsRef.current) {
-        Array.from(stepsRef.current.children).forEach((child, i) => {
-          const fromX = i % 2 === 0 ? -60 : 60;
-          gsap.fromTo(
-            child,
-            { x: fromX, opacity: 0 },
-            {
-              x: 0, opacity: 1, duration: 0.7, ease: "power3.out",
-              scrollTrigger: {
-                trigger: child,
-                start: "top 85%",
-              },
-            }
-          );
-        });
+      /* ── 2. Desktop: connector lines draw left→right ── */
+      gsap.fromTo(
+        ".qp-connector",
+        { scaleX: 0, transformOrigin: "left center" },
+        {
+          scaleX: 1, stagger: 0.15, duration: 0.55, ease: "power2.inOut",
+          scrollTrigger: { trigger: desktopTopRef.current, start: "top 82%" },
+        }
+      );
+
+      /* ── 3. Desktop: step circles drop in from above ── */
+      if (desktopTopRef.current) {
+        gsap.fromTo(
+          desktopTopRef.current.querySelectorAll(".qp-circle"),
+          { y: -35, opacity: 0 },
+          {
+            y: 0, opacity: 1, stagger: 0.12, duration: 0.6, ease: "back.out(1.4)",
+            scrollTrigger: { trigger: desktopTopRef.current, start: "top 82%" },
+          }
+        );
+
+        /* ── 4. Step number badges pop in ── */
+        gsap.fromTo(
+          desktopTopRef.current.querySelectorAll(".qp-badge"),
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1, opacity: 1, stagger: 0.12, duration: 0.45, ease: "back.out(2)",
+            scrollTrigger: { trigger: desktopTopRef.current, start: "top 80%" },
+            delay: 0.35,
+          }
+        );
       }
 
-      /* quote */
+      /* ── 5. Desktop: cards stagger up ── */
+      if (desktopCardsRef.current) {
+        gsap.fromTo(
+          Array.from(desktopCardsRef.current.children),
+          { y: 45, opacity: 0 },
+          {
+            y: 0, opacity: 1, stagger: 0.1, duration: 0.55, ease: "power3.out",
+            scrollTrigger: { trigger: desktopCardsRef.current, start: "top 85%" },
+          }
+        );
+      }
+
+      /* ── 6. Mobile: step items stagger from left ── */
+      if (mobileRef.current) {
+        gsap.fromTo(
+          Array.from(mobileRef.current.children),
+          { x: -40, opacity: 0 },
+          {
+            x: 0, opacity: 1, stagger: 0.12, duration: 0.55, ease: "power3.out",
+            scrollTrigger: { trigger: mobileRef.current, start: "top 80%" },
+          }
+        );
+      }
+
+      /* ── 7. Bottom quote fades up ── */
       gsap.fromTo(
         quoteRef.current,
         { y: 25, opacity: 0 },
         {
           y: 0, opacity: 1, duration: 0.6, ease: "power2.out",
-          scrollTrigger: { trigger: quoteRef.current, start: "top 90%" },
+          scrollTrigger: { trigger: quoteRef.current, start: "top 92%" },
         }
       );
 
-    }, sectionRef);
+    }, sectionRef); /* scope all selectors to the section */
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-[var(--primary)] overflow-hidden">
+    <section ref={sectionRef} className="py-24 bg-[var(--primary)]/4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
-      {/* Background grid */}
-      <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
-
-      {/* Glow accent */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] opacity-8 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, var(--secondary) 0%, transparent 70%)" }}
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-
-        {/* ── Header ── */}
-        <div ref={headerRef} className="text-center max-w-2xl mx-auto mb-20">
-          <span
-            className="inline-block text-[var(--secondary)] text-[11px] font-bold uppercase tracking-[0.22em] border-l-[3px] border-[var(--secondary)] pl-3 mb-5"
-          >
+        {/* ── header ── */}
+        <div ref={headerRef} className="text-center max-w-2xl mx-auto mb-16">
+          <span className="section-label" style={{ borderLeft: "3px solid var(--secondary)", display: "inline-block" }}>
             Quality Process
           </span>
-          <h2 className="section-heading-white mb-4">
+          <h2 className="section-heading mt-2 mb-4">
             How We Ensure{" "}
             <span className="text-[var(--secondary)]">Zero-Compromise</span>{" "}
             Quality
           </h2>
-          <p className="text-white/50 leading-relaxed text-sm">
-            Our structured 5-step manufacturing process delivers consistent quality at
-            every stage — from raw material intake to final dispatch.
+          <p className="text-[var(--accent)]/65 leading-relaxed text-sm">
+            Our structured 5-step manufacturing process is designed to deliver
+            consistent quality at every stage — from raw material intake to
+            final dispatch.
           </p>
         </div>
 
-        {/* ── Alternating timeline ── */}
-        <div ref={stepsRef} className="relative max-w-5xl mx-auto">
+        {/* ── desktop horizontal timeline ── */}
+        <div className="hidden lg:block">
 
-          {/* Central vertical line (desktop) */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-px" />
+          {/* circles row */}
+          <div ref={desktopTopRef} className="relative flex items-start gap-0 mb-0">
+            {steps.map((s, i) => (
+              <div key={i} className="flex-1 relative">
 
-          {steps.map((s, i) => {
-            const isLeft = i % 2 === 0; /* even = content on left side */
-            return (
-              <div
-                key={i}
-                className={`relative flex flex-col lg:flex-row items-center gap-0 mb-12 last:mb-0 ${
-                  isLeft ? "lg:flex-row" : "lg:flex-row-reverse"
-                }`}
-              >
-
-                {/* Content card */}
-                <div
-                  className={`flex-1 ${
-                    isLeft ? "lg:pr-12 lg:text-right" : "lg:pl-12 lg:text-left"
-                  }`}
-                >
-                  <div
-                    className={`bg-white/[0.06] border border-white/10 p-7 hover:bg-white/[0.09] transition-all duration-300 group ${
-                      isLeft ? "" : ""
-                    }`}
-                  >
-                    {/* Title row */}
+                {/* connector line — animated via .qp-connector */}
+                {i < steps.length - 1 && (
+                  <div className="absolute top-7 left-1/2 w-full h-px z-0">
                     <div
-                      className={`flex items-center gap-3 mb-4 ${
-                        isLeft ? "lg:flex-row-reverse lg:justify-start" : ""
-                      }`}
-                    >
-                      <div className="w-11 h-11 bg-[var(--secondary)]/15 border border-[var(--secondary)]/25 flex items-center justify-center text-[var(--secondary)] shrink-0">
-                        {s.icon}
-                      </div>
-                      <h3 className="text-white">{s.title}</h3>
-                    </div>
+                      className="qp-connector h-full"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, var(--secondary), var(--primary))",
+                        opacity: 0.25,
+                      }}
+                    />
+                  </div>
+                )}
 
-                    <p className="text-white/55 text-sm leading-relaxed mb-5">{s.desc}</p>
-
-                    {/* Tags */}
-                    <div
-                      className={`flex flex-wrap gap-1.5 ${
-                        isLeft ? "lg:justify-end" : ""
-                      }`}
-                    >
-                      {s.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 bg-[var(--secondary)]/10 text-[var(--secondary)]"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                {/* step circle — animated via .qp-circle */}
+                <div className="qp-circle relative z-10 flex flex-col items-center">
+                  <div className="w-14 h-14 rounded-full bg-[var(--primary)] border-2 border-[var(--secondary)]/40 flex items-center justify-center text-[var(--secondary)] shadow-lg">
+                    {s.icon}
+                  </div>
+                  {/* number badge — animated via .qp-badge */}
+                  <div className="qp-badge absolute -top-2 -right-1 w-5 h-5 bg-[var(--secondary)] rounded-full flex items-center justify-center text-white text-[9px] font-black">
+                    {s.step}
                   </div>
                 </div>
-
-                {/* Central step node */}
-                <div className="relative z-10 flex flex-col items-center shrink-0 my-4 lg:my-0">
-                  {/* Circle */}
-                  <div className="w-16 h-16 rounded-full bg-[var(--primary)] border-2 border-[var(--secondary)]/50 flex items-center justify-center shadow-lg">
-                    <span className="text-white text-lg font-black">{s.step}</span>
-                  </div>
-                  {/* Connector dot */}
-                  <div className="w-2 h-2 rounded-full bg-[var(--secondary)] mt-2 lg:hidden" />
-                </div>
-
-                {/* Spacer on the other side (desktop only) */}
-                <div className="flex-1 hidden lg:block" />
 
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          {/* cards below circles */}
+          <div ref={desktopCardsRef} className="flex gap-4 mt-8">
+            {steps.map((s, i) => (
+              <div
+                key={i}
+                className="flex-1 bg-white border border-[var(--primary)]/8 p-6 hover:border-[var(--secondary)]/30 hover:shadow-md transition-all duration-300"
+              >
+                <h4 className="text-[var(--primary)] mb-2">{s.title}</h4>
+                <p className="text-xs text-[var(--accent)]/65 leading-relaxed mb-4">
+                  {s.desc}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {s.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[9px] font-bold uppercase tracking-wider px-2 py-1 bg-[var(--secondary)]/8 text-[var(--secondary)]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
 
         </div>
 
-        {/* ── Bottom quote ── */}
-        <div ref={quoteRef} className="mt-16 text-center border-t border-white/10 pt-10">
-          <p className="text-white/35 text-sm max-w-lg mx-auto">
+        {/* ── mobile vertical timeline ── */}
+        <div ref={mobileRef} className="lg:hidden flex flex-col gap-0">
+          {steps.map((s, i) => (
+            <div key={i} className="relative flex gap-5">
+
+              {/* left rail */}
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-12 rounded-full bg-[var(--primary)] border-2 border-[var(--secondary)]/40 flex items-center justify-center text-[var(--secondary)] shrink-0 relative z-10">
+                  {s.icon}
+                </div>
+                {i < steps.length - 1 && (
+                  <div
+                    className="w-px flex-1 mt-2 mb-2"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, var(--secondary)/30, var(--primary)/20)",
+                      opacity: 0.4,
+                      minHeight: "24px",
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* card */}
+              <div className="flex-1 bg-white border border-[var(--primary)]/8 p-5 mb-4 hover:border-[var(--secondary)]/30 transition-all duration-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] font-black text-[var(--secondary)] uppercase tracking-widest">
+                    Step {s.step}
+                  </span>
+                  <FiCheckCircle className="text-[var(--secondary)] text-xs" />
+                </div>
+                <h4 className="text-[var(--primary)] mb-2">{s.title}</h4>
+                <p className="text-xs text-[var(--accent)]/65 leading-relaxed mb-3">
+                  {s.desc}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {s.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[9px] font-bold uppercase tracking-wider px-2 py-1 bg-[var(--secondary)]/8 text-[var(--secondary)]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+        {/* ── bottom trust statement ── */}
+        <div ref={quoteRef} className="mt-14 text-center">
+          <p className="text-[var(--accent)]/50 text-sm">
             Every batch is traceable from raw material to dispatch —
-            <span className="text-white/70 font-semibold">
+            <span className="text-[var(--primary)] font-semibold">
               {" "}quality is not checked at the end, it is built throughout.
             </span>
           </p>

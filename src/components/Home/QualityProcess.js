@@ -39,7 +39,7 @@ const steps = [
     step: "04",
     icon: <MdOutlineInventory className="text-3xl" />,
     title: "Packaging",
-    desc: "Finished goods are systematically packed, labelled and staged for dispatch — organised by order, client and specification.",
+    desc: "Finished goods are systematically packed, labelled and staged for dispatch  organised by order, client and specification.",
     tags: ["Systematically Packed", "Correctly Labelled", "Order Sorted"],
   },
   {
@@ -162,7 +162,7 @@ export default function QualityProcess() {
           </h2>
           <p className="text-[var(--accent)]/65 leading-relaxed text-sm">
             Our structured 5-step manufacturing process is designed to deliver
-            consistent quality at every stage — from raw material intake to
+            consistent quality at every stage  from raw material intake to
             final dispatch.
           </p>
         </div>

@@ -207,8 +207,8 @@ export default function Hero() {
             className="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl"
           >
             Ujjwal Poly Pack India Pvt. Ltd. is a trusted B2B manufacturing partner
-            specializing in industrial packaging and garment trim solutions — built on
-            35+ years of precision engineering and zero‑compromise quality standards.
+            specializing in industrial packaging and garment trim solutions, built on
+            35+ years of precision engineering and zerocompromise quality standards.
           </p>
 
           {/* buttons */}

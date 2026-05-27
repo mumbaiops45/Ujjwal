@@ -181,12 +181,17 @@ export default function Footer() {
             © 2026 Ujjwal Poly Pack India Pvt. Ltd. All rights reserved.
           </p>
 
-          <p className="text-sm text-white/60 text-center md:text-right">
-            Developed by{" "}
-            <span className="text-[var(--secondary)] font-semibold">
-              Nakshatra Namah Creation
-            </span>
-          </p>
+         <p className="text-sm text-white/60 text-center md:text-right">
+  Developed by{" "}
+  <a
+    href="https://www.nakshatranamahacreations.com/website-developers-in-mumbai"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-[var(--secondary)] font-semibold hover:opacity-80 transition-opacity duration-300"
+  >
+    Nakshatra Namaha Creations
+  </a>
+</p>
 
         </div>
 

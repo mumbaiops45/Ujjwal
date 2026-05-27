@@ -104,7 +104,7 @@ export default function WhyChooseUs() {
             <h2 className="section-heading">
               The{" "}
               <span className="text-[var(--secondary)]">Ujjwal Promise</span>
-              {" "}—{" "}
+              {" "},{" "}
               <span className="text-[var(--primary)]">Reliability First</span>
             </h2>
           </div>
@@ -163,7 +163,7 @@ export default function WhyChooseUs() {
               <span className="text-white font-semibold">
                 &ldquo;When we earn your business, our promise is to keep it.&rdquo;
               </span>
-              {" "}— Ujjwal Poly Pack India Pvt. Ltd.
+              {" "}: Ujjwal Poly Pack India Pvt. Ltd.
             </p>
           </div>
           <Link

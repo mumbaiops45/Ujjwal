@@ -10,86 +10,215 @@ import { MdOutlineFactory, MdOutlineVerified } from "react-icons/md";
 import { FiAward, FiCheckCircle } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
 
+gsap.registerPlugin(ScrollTrigger);
+
+/* ─────────────────────────────────────────────────────────────
+   splitWords
+   Walks every TEXT NODE inside `el`, replaces each word with
+   an inline-block <span class="wru"> so GSAP can tween them
+   individually.  Colour-spans (and any other element nodes)
+   are left intact — the wru spans simply live inside them.
+───────────────────────────────────────────────────────────── */
+function splitWords(el) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let node;
+  while ((node = walker.nextNode())) textNodes.push(node);
+
+  textNodes.forEach((tn) => {
+    const parts = tn.textContent.split(/(\s+)/);
+    const frag  = document.createDocumentFragment();
+
+    parts.forEach((part) => {
+      if (/^\s+$/.test(part)) {
+        /* preserve whitespace exactly as-is */
+        frag.appendChild(document.createTextNode(part));
+      } else if (part) {
+        const span = document.createElement("span");
+        span.textContent = part;
+        span.className   = "wru";                        // word-reveal-unit
+        span.style.cssText = "display:inline-block";     // needed for transforms
+        frag.appendChild(span);
+      }
+    });
+
+    tn.replaceWith(frag);
+  });
+
+  return Array.from(el.querySelectorAll(".wru"));
+}
+
+/* ─── data ──────────────────────────────────────────────────── */
 const strengths = [
   "35+ Years of manufacturing excellence",
   "Export quality production standards",
   "Pan India supply capability",
-  "Engineering-driven process control",
+  "Engineering driven process control",
   "Zero-compromise quality assurance",
   "Reliable long-term client partnerships",
 ];
 
 const highlightCards = [
   {
-    icon: <FiAward className="text-2xl" />,
+    icon : <FiAward className="text-2xl" />,
     value: "Est. 1989",
     label: "Three decades of industrial manufacturing heritage",
   },
   {
-    icon: <MdOutlineVerified className="text-2xl" />,
+    icon : <MdOutlineVerified className="text-2xl" />,
     value: "Export Quality",
     label: "Standards aligned with global packaging requirements",
   },
   {
-    icon: <TbTruckDelivery className="text-2xl" />,
+    icon : <TbTruckDelivery className="text-2xl" />,
     value: "Pan India Supply",
     label: "Seamless delivery network across all major cities",
   },
 ];
 
+/* ═══════════════════════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════════════════════ */
 export default function About() {
   const sectionRef = useRef(null);
+
+  /* left panel */
   const leftRef    = useRef(null);
-  const rightRef   = useRef(null);
+
+  /* right panel text elements */
+  const labelRef   = useRef(null);
+  const headingRef = useRef(null);
+  const para1Ref   = useRef(null);
+  const para2Ref   = useRef(null);
   const listRef    = useRef(null);
+  const ctaRef     = useRef(null);
+
+  /* bottom cards */
   const cardsRef   = useRef(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
 
-      /* left panel slides in from left */
+      /* ── 1. Left panel: slide from left (one-shot) ──────── */
       gsap.fromTo(
         leftRef.current,
         { x: -70, opacity: 0 },
         {
-          x: 0, opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+          x: 0, opacity: 1, duration: 1.1, ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 78%" },
         }
       );
 
-      /* right panel slides in from right */
-      gsap.fromTo(
-        rightRef.current,
-        { x: 70, opacity: 0 },
-        {
-          x: 0, opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
-        }
-      );
-
-      /* strength list stagger */
-      if (listRef.current) {
+      /* ── 2. Section label: simple scrub fade ────────────── */
+      if (labelRef.current) {
         gsap.fromTo(
-          Array.from(listRef.current.children),
-          { y: 18, opacity: 0 },
+          labelRef.current,
+          { opacity: 0, y: 10 },
           {
-            y: 0, opacity: 1, stagger: 0.07, duration: 0.45, ease: "power2.out",
-            scrollTrigger: { trigger: listRef.current, start: "top 82%" },
+            opacity: 1, y: 0, ease: "none",
+            scrollTrigger: {
+              trigger : labelRef.current,
+              start   : "top 90%",
+              end     : "bottom 72%",
+              scrub   : 0.8,
+            },
           }
         );
       }
 
-      /* bottom highlight cards */
-      if (cardsRef.current) {
+      /* ── 3. Heading: word-by-word scrub reveal ──────────── */
+      if (headingRef.current) {
+        const words = splitWords(headingRef.current);
+        gsap.timeline({
+          scrollTrigger: {
+            trigger : headingRef.current,
+            start   : "top 88%",
+            end     : "bottom 55%",
+            scrub   : 1.4,
+          },
+        }).fromTo(
+          words,
+          { opacity: 0.06 },
+          { opacity: 1, stagger: 0.055, ease: "power1.inOut" }
+        );
+      }
+
+      /* ── 4. Paragraph 1: word-by-word scrub ─────────────── */
+      if (para1Ref.current) {
+        const words = splitWords(para1Ref.current);
+        gsap.timeline({
+          scrollTrigger: {
+            trigger : para1Ref.current,
+            start   : "top 90%",
+            end     : "bottom 62%",
+            scrub   : 1.2,
+          },
+        }).fromTo(
+          words,
+          { opacity: 0.06 },
+          { opacity: 1, stagger: 0.035, ease: "power1.inOut" }
+        );
+      }
+
+      /* ── 5. Paragraph 2: word-by-word scrub ─────────────── */
+      if (para2Ref.current) {
+        const words = splitWords(para2Ref.current);
+        gsap.timeline({
+          scrollTrigger: {
+            trigger : para2Ref.current,
+            start   : "top 90%",
+            end     : "bottom 62%",
+            scrub   : 1.2,
+          },
+        }).fromTo(
+          words,
+          { opacity: 0.06 },
+          { opacity: 1, stagger: 0.035, ease: "power1.inOut" }
+        );
+      }
+
+      /* ── 6. Strength checklist: each item scrubs in ─────── */
+      if (listRef.current) {
+        const items = Array.from(listRef.current.children);
+        gsap.timeline({
+          scrollTrigger: {
+            trigger : listRef.current,
+            start   : "top 88%",
+            end     : "bottom 65%",
+            scrub   : 1,
+          },
+        }).fromTo(
+          items,
+          { opacity: 0, x: -18 },
+          { opacity: 1, x: 0, stagger: 0.1, ease: "power2.out" }
+        );
+      }
+
+      /* ── 7. CTA buttons: stagger in (one-shot) ──────────── */
+      if (ctaRef.current) {
         gsap.fromTo(
-          Array.from(cardsRef.current.children),
-          { y: 40, opacity: 0 },
+          Array.from(ctaRef.current.children),
+          { opacity: 0, y: 18 },
           {
-            y: 0, opacity: 1, stagger: 0.15, duration: 0.6, ease: "power3.out",
-            scrollTrigger: { trigger: cardsRef.current, start: "top 88%" },
+            opacity: 1, y: 0, stagger: 0.12, duration: 0.7, ease: "power3.out",
+            scrollTrigger: { trigger: ctaRef.current, start: "top 92%" },
           }
+        );
+      }
+
+      /* ── 8. Bottom highlight cards: scrub in ────────────── */
+      if (cardsRef.current) {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger : cardsRef.current,
+            start   : "top 92%",
+            end     : "bottom 75%",
+            scrub   : 1,
+          },
+        }).fromTo(
+          Array.from(cardsRef.current.children),
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, stagger: 0.14, ease: "power2.out" }
         );
       }
 
@@ -98,6 +227,7 @@ export default function About() {
     return () => ctx.revert();
   }, []);
 
+  /* ─── JSX ──────────────────────────────────────────────────── */
   return (
     <section ref={sectionRef} className="bg-white overflow-hidden">
 
@@ -106,24 +236,20 @@ export default function About() {
         {/* ── Main two-panel block ── */}
         <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] overflow-hidden shadow-2xl">
 
-          {/* ── Left: Company identity panel ── */}
+          {/* ════════ LEFT: Company identity panel ════════ */}
           <div
             ref={leftRef}
             className="relative bg-[var(--primary)] p-10 lg:p-12 flex flex-col justify-between min-h-[460px] overflow-hidden"
           >
-            {/* Background factory silhouette */}
+            {/* background decoratives */}
             <MdOutlineFactory className="absolute -bottom-4 -right-4 text-[220px] text-white/[0.04] pointer-events-none select-none" />
-
-            {/* Background grid pattern */}
             <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
-
-            {/* Secondary glow blob */}
             <div
               className="absolute top-0 right-0 w-48 h-48 opacity-10 pointer-events-none"
               style={{ background: "radial-gradient(circle, var(--secondary) 0%, transparent 70%)" }}
             />
 
-            {/* Top: brand block */}
+            {/* brand block */}
             <div className="relative z-10">
               <span className="inline-flex items-center gap-2 text-[var(--secondary)] text-[10px] font-bold uppercase tracking-[0.25em] border border-[var(--secondary)]/30 px-3 py-1.5 mb-8">
                 <FiAward className="text-xs" />
@@ -142,12 +268,12 @@ export default function About() {
               </p>
             </div>
 
-            {/* Bottom: quick stats */}
+            {/* quick stats */}
             <div className="relative z-10 grid grid-cols-3 gap-3 mt-10 pt-8 border-t border-white/10">
               {[
-                { num: "35+",  lbl: "Years"     },
-                { num: "100+", lbl: "Team"      },
-                { num: "2",    lbl: "Divisions" },
+                { num: "35+",  lbl: "Years"      },
+                { num: "100+", lbl: "Team"       },
+                { num: "2",    lbl: "Divisions"  },
               ].map((s, i) => (
                 <div key={i}>
                   <div className="text-2xl font-black text-white leading-none">{s.num}</div>
@@ -157,29 +283,42 @@ export default function About() {
             </div>
           </div>
 
-          {/* ── Right: Content ── */}
-          <div
-            ref={rightRef}
-            className="bg-white p-10 lg:p-12 flex flex-col justify-center border border-[var(--primary)]/8 lg:border-l-0"
-          >
-            <span className="section-label">About The Company</span>
+          {/* ════════ RIGHT: Content (text scrub animations) ════════ */}
+          <div className="bg-white p-10 lg:p-12 flex flex-col justify-center border border-[var(--primary)]/8 lg:border-l-0">
 
-            <h2 className="section-heading mb-5">
+            {/* label */}
+            <span ref={labelRef} className="section-label">
+              About The Company
+            </span>
+
+            {/* heading — words split in useEffect */}
+            <h2
+              ref={headingRef}
+              className="section-heading mb-5"
+            >
               A Trusted{" "}
               <span className="text-[var(--secondary)]">Industrial</span>{" "}
               Manufacturing Partner Since{" "}
               <span className="text-[var(--secondary)]">1989</span>
             </h2>
 
-            <p className="text-[var(--accent)]/80 leading-relaxed mb-4">
+            {/* paragraph 1 — words split in useEffect */}
+            <p
+              ref={para1Ref}
+              className="text-[var(--accent)]/80 leading-relaxed mb-4"
+            >
               Ujjwal Poly Pack India Pvt. Ltd. is a leading manufacturer, supplier and exporter
               of flexible packaging solutions and garment trim products. Since our founding in
               1989, we have built a reputation for engineering-driven production, consistent
               quality and dependable delivery.
             </p>
 
-            <p className="text-[var(--accent)]/80 leading-relaxed mb-8">
-              We operate with an industrial-scale manufacturing infrastructure serving apparel
+            {/* paragraph 2 — words split in useEffect */}
+            <p
+              ref={para2Ref}
+              className="text-[var(--accent)]/80 leading-relaxed mb-8"
+            >
+              We operate with an industrial scale manufacturing infrastructure serving apparel
               brands, retail companies, FMCG manufacturers and industrial businesses across
               India and beyond. Our philosophy is simple: when we earn your business, our
               promise is to keep it.
@@ -196,7 +335,7 @@ export default function About() {
             </ul>
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-4">
+            <div ref={ctaRef} className="flex flex-wrap gap-4">
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--primary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)] transition-all duration-300"
@@ -210,14 +349,14 @@ export default function About() {
                 Get In Touch
               </Link>
             </div>
-          </div>
 
+          </div>
         </div>
 
-        {/* ── Highlight cards strip (flush under the panels) ── */}
+        {/* ── Highlight cards strip ── */}
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--primary)]/8 border border-t-0 border-[var(--primary)]/8 mb-24"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--primary)]/8 border border-t-0 border-[var(--primary)]/8 my-24"
         >
           {highlightCards.map((h, i) => (
             <div

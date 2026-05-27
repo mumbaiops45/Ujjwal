@@ -29,7 +29,7 @@ const industries = [
     num: "03",
     icon: <RiShoppingBag2Line className="text-3xl" />,
     title: "FMCG Packaging",
-    desc: "High-speed FMCG-compatible packaging solutions meeting strict food-safety adjacent quality benchmarks.",
+    desc: "High-speed FMCG-compatible packaging solutions meeting strict food safety adjacent quality benchmarks.",
   },
   {
     num: "04",
@@ -53,7 +53,7 @@ const industries = [
     num: "07",
     icon: <TbShirt className="text-3xl" />,
     title: "Garment Manufacturing",
-    desc: "Complete garment trim solutions — elastic tapes, webbing, smocking thread and accessory products.",
+    desc: "Complete garment trim solutions  elastic tapes, webbing, smocking thread and accessory products.",
   },
   {
     num: "08",
@@ -124,7 +124,7 @@ export default function Industries() {
             </h2>
           </div>
           <p className="text-[var(--accent)]/60 text-sm leading-relaxed max-w-xs">
-            Our products serve diverse industries — from apparel to FMCG, logistics to exports.
+            Our products serve diverse industries from apparel to FMCG, logistics to exports.
           </p>
         </div>
 
@@ -166,7 +166,7 @@ export default function Industries() {
                 </h4>
 
                 {/* Description: hidden by default, visible on hover */}
-                <p className="text-xs text-[var(--accent)]/0 group-hover:text-white/65 transition-all duration-300 leading-relaxed">
+                <p className="text-xs group-hover:text-white/65 transition-all duration-300 leading-relaxed">
                   {ind.desc}
                 </p>
 

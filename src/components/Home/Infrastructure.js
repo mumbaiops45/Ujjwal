@@ -54,14 +54,14 @@ const capabilities = [
   {
     icon: <TbReportAnalytics className="text-2xl" />,
     title: "Process Documentation",
-    desc: "Comprehensive traceability documentation for every batch — from raw material to dispatch.",
+    desc: "Comprehensive traceability documentation for every batch from raw material to dispatch.",
   },
 ];
 
 /* ── Animated number counter ── */
 function MetricCounter({ value, label, isText = false }) {
   const [count, setCount] = useState(0);
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
 
   useEffect(() => {
@@ -70,9 +70,9 @@ function MetricCounter({ value, label, isText = false }) {
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
-          const num   = parseInt(value, 10);
+          const num = parseInt(value, 10);
           const steps = 50;
-          const inc   = num / steps;
+          const inc = num / steps;
           let cur = 0;
           const timer = setInterval(() => {
             cur += inc;
@@ -95,18 +95,18 @@ function MetricCounter({ value, label, isText = false }) {
 }
 
 const metrics = [
-  { raw: "35+",       label: "Years of Operation", isText: false },
-  { raw: "100+",      label: "Production Staff",   isText: false },
-  { raw: "2+",        label: "Product Divisions",  isText: false },
-  { raw: "Pan India", label: "Supply Network",     isText: true  },
+  { raw: "35+", label: "Years of Operation", isText: false },
+  { raw: "100+", label: "Production Staff", isText: false },
+  { raw: "2+", label: "Product Divisions", isText: false },
+  { raw: "Pan India", label: "Supply Network", isText: true },
 ];
 
 export default function Infrastructure() {
-  const sectionRef  = useRef(null);
-  const headerRef   = useRef(null);
-  const metricsRef  = useRef(null);
-  const capsRef     = useRef(null);
-  const bannerRef   = useRef(null);
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const metricsRef = useRef(null);
+  const capsRef = useRef(null);
+  const bannerRef = useRef(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -159,8 +159,22 @@ export default function Infrastructure() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-[var(--accent)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+    <section ref={sectionRef} className="relative py-24 overflow-hidden">
+      {/* Video Background */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/Polybags.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-[var(--primary)]/60" />
+       <div className="absolute inset-0 bg-black/30" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
         {/* ── Header ── */}
         <div ref={headerRef} className="text-center max-w-2xl mx-auto mb-14">
@@ -176,7 +190,7 @@ export default function Infrastructure() {
           </h2>
           <p className="text-white/50 leading-relaxed text-sm">
             Our manufacturing facility is equipped with advanced machinery, quality-controlled
-            production systems and an experienced technical team — built to deliver at
+            production systems and an experienced technical team built to deliver at
             industrial scale with engineering precision.
           </p>
         </div>
@@ -189,7 +203,7 @@ export default function Infrastructure() {
           {metrics.map((m, i) => (
             <div
               key={i}
-              className="bg-[var(--accent)] hover:bg-[var(--primary)] transition-all duration-300 px-8 py-8 flex flex-col items-center gap-2 text-center group border border-white/0 hover:border-[var(--secondary)]/20"
+              className="bg-[var(--accent)]/10 hover:bg-[var(--primary)]/70 transition-all duration-300 px-8 py-8 flex flex-col items-center gap-2 text-center group border border-white/0 hover:border-[var(--secondary)]/20"
             >
               <MetricCounter value={m.raw} label={m.label} isText={m.isText} />
               <span className="text-white/40 group-hover:text-white/55 transition-colors duration-300 text-[10px] uppercase tracking-widest mt-1">
@@ -207,7 +221,7 @@ export default function Infrastructure() {
           {capabilities.map((cap, i) => (
             <div
               key={i}
-              className="group bg-[var(--accent)] hover:bg-[var(--primary)] transition-all duration-300 px-7 py-5 flex items-start gap-5 border border-white/0 hover:border-[var(--secondary)]/15"
+              className="group bg-[var(--accent)]/10 hover:bg-[var(--primary)]/70 transition-all duration-300 px-7 py-5 flex items-start gap-5 border border-white/0 hover:border-[var(--secondary)]/15"
             >
               {/* Icon */}
               <div className="w-10 h-10 bg-[var(--secondary)]/10 border border-[var(--secondary)]/20 flex items-center justify-center text-[var(--secondary)] shrink-0 transition-all duration-300 group-hover:bg-[var(--secondary)]/18">
@@ -237,7 +251,7 @@ export default function Infrastructure() {
             <FiLayers className="text-[var(--secondary)] text-xl shrink-0" />
             <p className="text-white/65 text-sm leading-relaxed">
               <span className="text-white font-semibold">Export-ready manufacturing</span>
-              {" "}— our infrastructure meets the quality benchmarks demanded by world-class brands.
+              {"   "} our infrastructure meets the quality benchmarks demanded by world-class brands.
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">

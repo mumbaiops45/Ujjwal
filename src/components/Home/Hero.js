@@ -211,12 +211,12 @@ export default function Hero() {
 
           {/* buttons */}
           <div ref={buttonRef} className="flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--secondary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)]/90 transition-all duration-300"
+            <div
+               onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
+              className="cursor-pointer inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--secondary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)]/90 transition-all duration-300"
             >
               Request Quote <HiArrowRight />
-            </Link>
+            </div>
             <Link
               href="/products"
               className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/25 text-white text-sm font-bold uppercase tracking-wide hover:border-[var(--secondary)] hover:text-[var(--secondary)] transition-all duration-300 backdrop-blur-sm"

@@ -50,9 +50,9 @@ const reasons = [
 
 export default function WhyChooseUs() {
   const sectionRef = useRef(null);
-  const headerRef  = useRef(null);
-  const listRef    = useRef(null);
-  const ctaRef     = useRef(null);
+  const headerRef = useRef(null);
+  const listRef = useRef(null);
+  const ctaRef = useRef(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -94,11 +94,14 @@ export default function WhyChooseUs() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-white">
+    <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
         {/* ── Header ── */}
-        <div ref={headerRef} className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16">
+        <div
+          ref={headerRef}
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 lg:gap-6 mb-12 lg:mb-16"
+        >
           <div className="max-w-2xl">
             <span className="section-label">Why Choose Us</span>
             <h2 className="section-heading">
@@ -123,19 +126,16 @@ export default function WhyChooseUs() {
           {reasons.map((r, i) => (
             <div
               key={i}
-              className={`group flex items-start gap-6 p-7 transition-all duration-300 hover:bg-[var(--primary)]/[0.025] border-b border-[var(--primary)]/8 last:border-b-0 lg:last:border-b-0 ${
-                /* Right column items: don't add right border on last two */
-                i % 2 === 0 ? "lg:border-r border-[var(--primary)]/8" : ""
-              }`}
+              className="group flex items-start gap-4 sm:gap-5 lg:gap-6 p-5 sm:p-6 lg:p-7 transition-all duration-300 hover:bg-[var(--primary)]/[0.025] border-b border-[var(--primary)]/8 last:border-b-0"
             >
 
               {/* Large number */}
-              <span className="text-[56px] font-black leading-none text-[var(--primary)]/8 group-hover:text-[var(--secondary)]/18 transition-colors duration-500 select-none w-14 shrink-0 tabular-nums pt-1">
+              <span className="hidden md:block text-[40px] sm:text-[48px] lg:text-[56px] font-black leading-none text-[var(--primary)]/8 group-hover:text-[var(--secondary)]/18 transition-colors duration-500 select-none w-10 sm:w-12 lg:w-14 shrink-0 tabular-nums pt-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
 
               {/* Icon box */}
-              <div className="w-11 h-11 border border-[var(--primary)]/12 bg-[var(--primary)]/4 flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--secondary)]/10 group-hover:border-[var(--secondary)]/25 group-hover:text-[var(--secondary)] transition-all duration-300 shrink-0 mt-1">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 border border-[var(--primary)]/12 bg-[var(--primary)]/4 flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--secondary)]/10 group-hover:border-[var(--secondary)]/25 group-hover:text-[var(--secondary)] transition-all duration-300 shrink-0 mt-1">
                 {r.icon}
               </div>
 
@@ -155,7 +155,7 @@ export default function WhyChooseUs() {
         {/* ── Bottom CTA strip ── */}
         <div
           ref={ctaRef}
-          className="mt-10 bg-[var(--primary)] px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-5"
+          className="mt-10 bg-[var(--primary)] px-5 sm:px-6 lg:px-8 py-5 lg:py-6 flex flex-col sm:flex-row items-center justify-between gap-5"
         >
           <div className="flex items-center gap-4">
             <FiShield className="text-[var(--secondary)] text-2xl shrink-0" />
@@ -168,7 +168,7 @@ export default function WhyChooseUs() {
           </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--secondary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)]/90 transition-all duration-300 shrink-0"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-[var(--secondary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)]/90 transition-all duration-300 shrink-0"
           >
             Start a Conversation <HiArrowRight />
           </Link>

@@ -68,7 +68,7 @@ export default function Navbar() {
 
             <div
                onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
-              className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white bg-[var(--primary)] hover:bg-[var(--secondary)] transition-all duration-300"
+              className="cursor-pointer px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white bg-[var(--primary)] hover:bg-[var(--secondary)] transition-all duration-300"
             >
               Get Quote
             </div>

@@ -132,7 +132,7 @@ export default function AboutMission() {
               }`}
             >
               {/* Large number */}
-              <span className="text-[56px] font-black leading-none text-[var(--primary)]/8 group-hover:text-[var(--secondary)]/18 transition-colors duration-500 select-none w-14 shrink-0 tabular-nums pt-1">
+              <span className="hidden md:block text-[56px] font-black leading-none text-[var(--primary)]/8 group-hover:text-[var(--secondary)]/18 transition-colors duration-500 select-none w-14 shrink-0 tabular-nums pt-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
 

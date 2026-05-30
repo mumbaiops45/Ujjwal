@@ -142,12 +142,12 @@ export default function Products() {
   const active = products[activeIdx];
 
   /* refs */
-  const sectionRef  = useRef(null);
-  const headerRef   = useRef(null);   // the title block — scrolls away freely
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);   // the title block — scrolls away freely
   const gridWrapRef = useRef(null);   // ← ONLY this gets pinned
-  const listRef     = useRef(null);
+  const listRef = useRef(null);
   const showcaseRef = useRef(null);
-  const progBarRef  = useRef(null);   // direct DOM — no re-render
+  const progBarRef = useRef(null);   // direct DOM — no re-render
 
   /* ════════════════════════════════════════════════════════════
      SETUP
@@ -157,7 +157,7 @@ export default function Products() {
        then the tab panel sticks at the top of the viewport.
   ════════════════════════════════════════════════════════════ */
   useEffect(() => {
-    const n      = products.length;
+    const n = products.length;
     const stepPx = Math.round(window.innerHeight * 0.65); // 65 vh per product
 
     const ctx = gsap.context(() => {
@@ -204,11 +204,11 @@ export default function Products() {
         let prevIdx = 0;
 
         ScrollTrigger.create({
-          trigger    : gridWrapRef.current,
-          start      : "top top",
-          end        : `+=${n * stepPx}`,
-          pin        : true,
-          pinSpacing : true,
+          trigger: gridWrapRef.current,
+          start: "top top",
+          end: `+=${n * stepPx}`,
+          pin: true,
+          pinSpacing: true,
 
           onUpdate(self) {
             /* progress bar — direct DOM, zero re-renders */
@@ -319,46 +319,120 @@ export default function Products() {
                 {products.map((item, idx) => {
                   const isActive = activeIdx === idx;
                   return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveIdx(idx)}
-                      className={`group text-left border-b border-white/8 transition-all duration-250
+                    <div key={item.id}>
+                      <button
+                        onClick={() => setActiveIdx(idx)}
+                        className={`cursor-pointer group text-left border-b border-white/8 transition-all duration-250
                         ${isActive ? "bg-(--secondary)" : "hover:bg-white/5"}`}
-                    >
-                      <div className="flex items-center gap-4 px-5 py-2">
+                      >
+                        <div className="flex items-center gap-4 px-5 py-2">
 
-                        {/* number */}
-                        <span className={`text-[11px] font-black tabular-nums w-5 shrink-0
+                          {/* number */}
+                          <span className={`text-[11px] font-black tabular-nums w-5 shrink-0
                           ${isActive ? "text-white/70" : "text-white/25"}`}>
-                          {String(idx + 1).padStart(2, "0")}
-                        </span>
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
 
-                        {/* icon */}
-                        <span className={`text-lg shrink-0 transition-colors duration-250
+                          {/* icon */}
+                          <span className={`text-lg shrink-0 transition-colors duration-250
                           ${isActive ? "text-white" : "text-(--secondary)"}`}>
-                          {item.icon}
-                        </span>
+                            {item.icon}
+                          </span>
 
-                        {/* label */}
-                        <div className="flex-1 min-w-0">
-                          <p className={`text-[10px] uppercase tracking-[0.18em] truncate mb-0.5
+                          {/* label */}
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-[10px] uppercase tracking-[0.18em] truncate mb-0.5
                             ${isActive ? "text-white/60" : "text-white/28"}`}>
-                            {item.category}
-                          </p>
-                          <p className={`text-sm font-semibold truncate transition-colors duration-250
+                              {item.category}
+                            </p>
+                            <p className={`text-sm font-semibold truncate transition-colors duration-250
                             ${isActive ? "text-white" : "text-white/75 group-hover:text-white"}`}>
-                            {item.name}
-                          </p>
+                              {item.name}
+                            </p>
+                          </div>
+
+                          {/* arrow */}
+                          <HiArrowRight className={`text-base shrink-0 transition-all duration-250
+                          ${isActive
+                              ? "text-white translate-x-0.5"
+                              : "text-white/15 group-hover:text-white/40"}`}
+                          />
+                        </div>
+                      </button>
+                      {idx===activeIdx &&  <div ref={showcaseRef} className="block md:hidden bg-white flex flex-col">
+
+                        {/* top banner */}
+                        <div
+                          className="relative flex flex-col justify-end p-10 lg:p-12 overflow-hidden min-h-60"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, var(--primary) 0%, rgba(57,63,75,0.95) 100%)",
+                          }}
+                        >
+                          {/* watermark */}
+                          <span
+                            className="absolute top-1/2 right-6 -translate-y-1/2 text-[90px] font-black
+                             uppercase leading-none select-none pointer-events-none
+                             text-white/4 text-right hidden lg:block"
+                            aria-hidden
+                          >
+                            {active.name}
+                          </span>
+                          <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
+
+                          <div className="relative z-10">
+                            <span className="text-(--secondary) text-[10px] font-bold uppercase tracking-[0.22em] mb-3 block">
+                              {active.category}
+                            </span>
+                            <h3 className="text-white text-3xl lg:text-4xl font-black leading-tight mb-3">
+                              {active.name}
+                            </h3>
+                            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
+                              {active.description}
+                            </p>
+                          </div>
                         </div>
 
-                        {/* arrow */}
-                        <HiArrowRight className={`text-base shrink-0 transition-all duration-250
-                          ${isActive
-                            ? "text-white translate-x-0.5"
-                            : "text-white/15 group-hover:text-white/40"}`}
-                        />
-                      </div>
-                    </button>
+                        {/* bottom: features + image */}
+                        <div className="p-8 lg:p-0 flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                          {/* features */}
+                          <div className="lg:p-10">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-(--secondary) mb-5">
+                              Product Highlights
+                            </p>
+                            <ul className="space-y-4">
+                              {active.features.map((f, i) => (
+                                <li key={i} className="flex items-start gap-3">
+                                  <span className="w-5 h-5 rounded-full bg-(--secondary)/12 flex items-center justify-center shrink-0 mt-0.5">
+                                    <FiCheckCircle className="text-(--secondary) text-xs" />
+                                  </span>
+                                  <span className="text-(--accent)/75 text-sm leading-relaxed">{f}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* product image */}
+                          <div className="bg-white border border-(--primary)/10 flex flex-col">
+                            <div className="relative w-full aspect-square overflow-hidden">
+                              <img
+                                key={active.id}
+                                src={active.image}
+                                alt={active.name}
+                                className="w-full h-[70%] object-cover"
+                              />
+                              <div className="absolute top-4 left-4 bg-(--primary) text-white px-3 py-2 text-xs font-bold uppercase tracking-wide">
+                                {active.name}
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>}
+                     
+                    </div>
+
                   );
                 })}
               </div>
@@ -371,7 +445,7 @@ export default function Products() {
             </div>
 
             {/* ═══ RIGHT: showcase ═══ */}
-            <div ref={showcaseRef} className="bg-white flex flex-col">
+            <div ref={showcaseRef} className="hidden md:block bg-white flex flex-col">
 
               {/* top banner */}
               <div

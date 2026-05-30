@@ -303,7 +303,7 @@ export default function AboutIntro() {
         {/* ── Highlight cards strip ── */}
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--primary)]/8 border border-t-0 border-[var(--primary)]/8 mb-24"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--primary)]/8 border border-t-0 border-[var(--primary)]/8 my-18"
         >
           {highlightCards.map((h, i) => (
             <div

@@ -171,7 +171,7 @@ export default function CTABanner() {
         >
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--secondary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)]/90 transition-all duration-300 group w-full sm:w-auto justify-center"
+            className="cursor-pointer inline-flex items-center gap-3 px-8 py-4 bg-[var(--secondary)] text-white text-sm font-bold uppercase tracking-wide hover:bg-[var(--secondary)]/90 transition-all duration-300 group w-full sm:w-auto justify-center"
           >
             Request A Quote
             <HiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />

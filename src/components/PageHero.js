@@ -86,16 +86,11 @@ export default function PageHero({
    
     >
 
-      {/* Background Image */}
-      <div
-        ref={imageRef}
-        className="absolute inset-0 bg-cover bg-center scale-110"
-        style={{ backgroundImage: `url('${image}')` }}
-      />
+
 
       {/* Overlays */}
-      <div className="absolute inset-0 bg-[var(--primary)]/75" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/80" />
+      <div className="absolute inset-0 bg-[var(--primary)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
 
 
 
@@ -128,7 +123,7 @@ export default function PageHero({
       </div>
 
       {/* Center Content */}
-      <div className="relative z-10 flex-1 flex items-center justify-center text-center px-6 py-10">
+      <div className="relative z-10 flex-1 flex items-center justify-center text-center px-6 pb-18">
 
         <div ref={contentRef}>
 
@@ -138,7 +133,7 @@ export default function PageHero({
 
           <h1
             className="font-black text-white flex items-center justify-center gap-4 flex-wrap"
-            style={{ fontSize: "clamp(42px, 7vw, 90px)" }}
+         
           >
             <span>{title}</span>
 
@@ -152,43 +147,7 @@ export default function PageHero({
         </div>
 
       </div>
-
-      {/* Stats */}
-      {stats?.length > 0 && (
-        <div
-          ref={statsRef}
-          className="relative z-10 border-t border-white/10 bg-black/25 backdrop-blur-md"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
-
-              {stats.map((s, i) => (
-                <div
-                  key={i}
-                  className="py-5 px-6 flex flex-col gap-1"
-                >
-                  <span className="text-white text-xl sm:text-2xl font-black leading-none">
-                    {s.num}
-
-                    {s.accent && (
-                      <span className="text-[var(--secondary)]">
-                        {s.accent}
-                      </span>
-                    )}
-                  </span>
-
-                  <span className="text-white/40 text-[10px] uppercase tracking-widest">
-                    {s.label}
-                  </span>
-                </div>
-              ))}
-
-            </div>
-
-          </div>
-        </div>
-      )}
+    
 
     </section>
   );

@@ -325,7 +325,7 @@ export default function Products() {
                       className={`group text-left border-b border-white/8 transition-all duration-250
                         ${isActive ? "bg-(--secondary)" : "hover:bg-white/5"}`}
                     >
-                      <div className="flex items-center gap-4 px-5 py-4">
+                      <div className="flex items-center gap-4 px-5 py-2">
 
                         {/* number */}
                         <span className={`text-[11px] font-black tabular-nums w-5 shrink-0
@@ -432,7 +432,7 @@ export default function Products() {
                       key={active.id}
                       src={active.image}
                       alt={active.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-[70%] object-cover"
                     />
                     <div className="absolute top-4 left-4 bg-(--primary) text-white px-3 py-2 text-xs font-bold uppercase tracking-wide">
                       {active.name}

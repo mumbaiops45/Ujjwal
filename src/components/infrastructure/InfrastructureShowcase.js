@@ -44,7 +44,7 @@ const pillars = [
     heading: "Advanced Weaving Machines",
     body: "High-speed weaving machines and elastic production systems manufacture woven elastics, webbing tapes, jacquard elastics and garment trim products with precision parameter control and consistent dimensional quality at every production run.",
     tags: ["Woven Elastics", "Webbing Tapes", "Jacquard Elastic"],
-    img: "/infrastructure/Advanced Weaving Machines.jpg",
+    img: "/infrastructure/Advanced Weaving Machines_2.png",
     reversed: false,
   },
   {
@@ -60,7 +60,7 @@ const pillars = [
     heading: "Integrated Quality Inspection",
     body: "A dedicated quality inspection setup is built into every production stage. From raw material verification to final dispatch, each product is monitored for tensile strength, dimensional accuracy, print quality and durability before delivery.",
     tags: ["Tensile Testing", "Dimensional QC", "Print Accuracy"],
-    img: "/infrastructure/Integrated Quality Inspection.jpg",
+    img: "/infrastructure/Integrated Quality Inspection.png",
     reversed: false,
   },
   {
@@ -68,7 +68,7 @@ const pillars = [
     heading: "Skilled Team & Process Monitoring",
     body: "Supported by skilled technicians, experienced production engineers and continuous process monitoring systems. Regular technological upgrades and process optimisation maintain operational efficiency and minimise production downtime.",
     tags: ["100+ Staff", "Process Control", "Tech Upgrades"],
-    img: "/infrastructure/Skilled Team.jpg",
+    img: "/infrastructure/Skilled Team & Process Monitoring_2.png",
     reversed: true,
   },
 ];

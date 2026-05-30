@@ -66,12 +66,12 @@ export default function Navbar() {
           {/* CTA */}
           <div className="hidden lg:flex">
 
-            <Link
-              href="/contact"
+            <div
+               onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
               className="px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white bg-[var(--primary)] hover:bg-[var(--secondary)] transition-all duration-300"
             >
               Get Quote
-            </Link>
+            </div>
 
           </div>
 
@@ -116,12 +116,12 @@ export default function Navbar() {
             );
           })}
 
-          <Link
-            href="/contact"
+          <div
+             onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
             className="mt-5 w-full text-center px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white bg-[var(--primary)] hover:bg-[var(--secondary)] transition-all duration-300"
           >
             Get Quote
-          </Link>
+          </div>
 
         </div>
       </div>

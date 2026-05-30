@@ -167,9 +167,7 @@ export default function Hero() {
       {/* dark tone overlay */}
       <div className="absolute inset-0 bg-black/20" />
 
-      {/* grid overlay */}
-      <div className="absolute inset-0 grid-pattern pointer-events-none opacity-30" />
-
+     
       {/* glow blob */}
       <div
         className="absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full opacity-10 pointer-events-none"

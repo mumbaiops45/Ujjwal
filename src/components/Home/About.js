@@ -243,7 +243,7 @@ export default function About() {
           >
             {/* background decoratives */}
             <MdOutlineFactory className="absolute -bottom-4 -right-4 text-[220px] text-white/[0.04] pointer-events-none select-none" />
-            <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" />
+   
             <div
               className="absolute top-0 right-0 w-48 h-48 opacity-10 pointer-events-none"
               style={{ background: "radial-gradient(circle, var(--secondary) 0%, transparent 70%)" }}
@@ -342,12 +342,12 @@ export default function About() {
               >
                 Our Story <HiArrowRight />
               </Link>
-              <Link
-                href="/contact"
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
                 className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--primary)]/25 text-[var(--primary)] text-sm font-bold uppercase tracking-wide hover:border-[var(--secondary)] hover:text-[var(--secondary)] transition-all duration-300"
               >
                 Get In Touch
-              </Link>
+              </button>
             </div>
 
           </div>
